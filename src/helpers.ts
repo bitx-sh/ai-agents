@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { HumanMessage, BaseMessage, SystemMessage } from "@langchain/core/messages";
+import {
+  HumanMessage,
+  BaseMessage,
+  SystemMessage,
+} from "@langchain/core/messages";
 import {
   ChatPromptTemplate,
   MessagesPlaceholder,
@@ -7,26 +11,33 @@ import {
 import { JsonOutputToolsParser } from "langchain/output_parsers";
 import { ChatOpenAI } from "@langchain/openai";
 import { Runnable } from "@langchain/core/runnables";
-import { StructuredToolInterface } from "@langchain/core/tools";
+import { type StructuredToolInterface } from "@langchain/core/tools";
 
 const agentMessageModifier = (
   systemPrompt: string,
   tools: StructuredToolInterface[],
   teamMembers: string[],
-): (messages: BaseMessage[]) => BaseMessage[] => {
+): ((messages: BaseMessage[]) => BaseMessage[]) => {
   const toolNames = tools.map((t) => t.name).join(", ");
-  const systemMsgStart = new SystemMessage(systemPrompt +
-    "\nWork autonomously according to your specialty, using the tools available to you." +
-    " Do not ask for clarification." +
-    " Your other team members (and other teams) will collaborate with you with their own specialties." +
-    ` You are chosen for a reason! You are one of the following team members: ${teamMembers.join(", ")}.`)
-  const systemMsgEnd = new SystemMessage(`Supervisor instructions: ${systemPrompt}\n` +
+  const systemMsgStart = new SystemMessage(
+    systemPrompt +
+      "\nWork autonomously according to your specialty, using the tools available to you." +
+      " Do not ask for clarification." +
+      " Your other team members (and other teams) will collaborate with you with their own specialties." +
+      ` You are chosen for a reason! You are one of the following team members: ${teamMembers.join(", ")}.`,
+  );
+  const systemMsgEnd = new SystemMessage(
+    `Supervisor instructions: ${systemPrompt}\n` +
       `Remember, you individually can only use these tools: ${toolNames}` +
-      "\n\nEnd if you have already completed the requested task. Communicate the work completed.");
+      "\n\nEnd if you have already completed the requested task. Communicate the work completed.",
+  );
 
-  return (messages: BaseMessage[]): any[] => 
-    [systemMsgStart, ...messages, systemMsgEnd];
-}
+  return (messages: BaseMessage[]): any[] => [
+    systemMsgStart,
+    ...messages,
+    systemMsgEnd,
+  ];
+};
 
 async function runAgentNode(params: {
   state: any;
@@ -55,9 +66,13 @@ async function createTeamSupervisor(
     schema: z.object({
       reasoning: z.string(),
       next: z.enum(["FINISH", ...members]),
-      instructions: z.string().describe("The specific instructions of the sub-task the next role should accomplish."),
-    })
-  }
+      instructions: z
+        .string()
+        .describe(
+          "The specific instructions of the sub-task the next role should accomplish.",
+        ),
+    }),
+  };
   let prompt = ChatPromptTemplate.fromMessages([
     ["system", systemPrompt],
     new MessagesPlaceholder("messages"),

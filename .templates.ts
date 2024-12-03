@@ -1,136 +1,5 @@
 // generator.templates.js
 export const codeTemplates = {
-  // React Component Library Template
-  reactComponentLibrary: {
-    structure: {
-      prompt: `Generate a modern React component library with the following structure:
-        /src
-          /components
-            /{componentName}
-              - index.ts           # Main export
-              - {Component}.tsx    # Component implementation
-              - {Component}.test.tsx # Tests
-              - {Component}.stories.tsx # Storybook stories
-              - {Component}.styles.ts   # Styled components/CSS
-              - README.md         # Component documentation
-          /hooks                  # Custom hooks
-          /utils                  # Utility functions
-          /types                  # TypeScript types
-          /constants             # Shared constants
-          /context               # React contexts
-          /themes                # Theming system
-        /docs                    # Documentation site
-        /examples               # Usage examples
-        /scripts                # Build scripts
-        
-        Include:
-        1. TypeScript configuration
-        2. Build system setup
-        3. Testing framework
-        4. Documentation generation
-        5. CI/CD workflow
-        
-        Base the implementation on patterns found in the analyzed repositories but modernize where appropriate.`,
-
-    exampleComponent: `import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-
-const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors',
-  {
-    variants: {
-      variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
-      },
-      size: {
-        default: 'h-10 px-4 py-2',
-        sm: 'h-9 rounded-md px-3',
-        lg: 'h-11 rounded-md px-8',
-        icon: 'h-10 w-10',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'default',
-    },
-  }
-);
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-}
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    return (
-      <button
-        className={buttonVariants({ variant, size, className })}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-Button.displayName = 'Button';
-
-export { Button, buttonVariants };`,
-
-    exampleTest: `import { render, fireEvent } from '@testing-library/react';
-import { Button } from './Button';
-
-describe('Button', () => {
-  it('renders with default variants', () => {
-    const { getByRole } = render(<Button>Click me</Button>);
-    const button = getByRole('button');
-    expect(button).toHaveClass('bg-primary');
-  });
-
-  it('handles click events', () => {
-    const handleClick = jest.fn();
-    const { getByRole } = render(
-      <Button onClick={handleClick}>Click me</Button>
-    );
-    fireEvent.click(getByRole('button'));
-    expect(handleClick).toHaveBeenCalledTimes(1);
-  });
-});`,
-
-    exampleStory: `import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from './Button';
-
-const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
-  component: Button,
-  tags: ['autodocs'],
-  args: {
-    children: 'Button',
-  },
-};
-
-export default meta;
-type Story = StoryObj<typeof Button>;
-
-export const Primary: Story = {
-  args: {
-    variant: 'default',
-    children: 'Primary Button',
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    variant: 'secondary',
-    children: 'Secondary Button',
-  },
-};`
-  },
 
   // Full Stack Application Template
   fullStackApp: {
@@ -323,14 +192,11 @@ export const initCommand = new Command('init')
       // Show next steps
       console.log(
         chalk.blue('\nNext steps:'),
-        \`\n  cd \${projectConfig.name}`,
-        '\n  npm install',
-        '\n  npm run dev\n'
       );
     } catch (error) {
       logger.error('Failed to initialize project:', error);
       process.exit(1);
-    }
+    }`
   });
 
 async function initializeProject(config) {
@@ -340,7 +206,7 @@ async function initializeProject(config) {
   // 2. Copying template files
   // 3. Customizing configuration
   // 4. Installing dependencies
-}`
+}'
   },
 
   // NPM Package Template

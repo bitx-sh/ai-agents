@@ -38,6 +38,9 @@
     "zod-to-json-schema": "latest"
   },
   "trustedDependencies": [
-    "protobufjs"
+    "esbuild",
+    "protobufjs",
+    "sharp",
+    "zeromq"
   ]
 }

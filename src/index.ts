@@ -11,7 +11,7 @@ import { ToolNode } from "@langchain/langgraph/prebuilt";
 
 //import { createClient } from "@anthropic-ai/sdk";
 
-import { defineConfig, loadConfig } from "c12";
+import { type DefineConfig, loadConfig } from "c12";
 
 import { createContext, useContext } from "unctx";
 import { StateGraph } from "@langchain/langgraph";
