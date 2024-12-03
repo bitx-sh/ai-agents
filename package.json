@@ -8,13 +8,34 @@
   "type": "module",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",
-    "@langchain/anthropic": "^0.3.8",
-    "@langchain/core": "^0.3.20",
-    "@langchain/langgraph": "^0.2.24",
+    "@langchain/anthropic": "latest",
+    "@langchain/community": "latest",
+    "@langchain/core": "latest",
+    "@langchain/groq": "latest",
+    "@langchain/langgraph": "latest",
+    "@langchain/mistralai": "latest",
+    "@langchain/ollama": "latest",
+    "@langchain/openai": "latest",
+    "@langchain/textsplitters": "latest",
     "@octokit/rest": "^21.0.2",
+    "@xenova/transformers": "latest",
     "c12": "^2.0.1",
+    "cheerio": "latest",
+    "chromadb": "latest",
+    "d3": "latest",
+    "dotenv": "latest",
+    "langchain": "latest",
+    "pathe": "^1.1.2",
+    "pg": "latest",
+    "tslab": "latest",
+    "tsx": "latest",
     "unctx": "^2.3.1",
     "unplugin": "^2.0.0-beta.2",
-    "zod": "^3.23.8"
-  }
+    "uuid": "latest",
+    "zod": "latest",
+    "zod-to-json-schema": "latest"
+  },
+  "trustedDependencies": [
+    "protobufjs"
+  ]
 }
