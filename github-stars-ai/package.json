@@ -1,0 +1,103 @@
+{
+  "name": "github-stars-ai",
+  "version": "0.1.0",
+  "description": "AI-powered GitHub stars analyzer and code generator using hierarchical LLM agents",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./config": {
+      "import": "./packages/config/dist/index.js",
+      "types": "./packages/config/dist/index.d.ts"
+    },
+    "./agents": {
+      "import": "./packages/agents/dist/index.js",
+      "types": "./packages/agents/dist/index.d.ts"
+    },
+    "./utils": {
+      "import": "./packages/utils/dist/index.js",
+      "types": "./packages/utils/dist/index.d.ts"
+    },
+    "./workflow": {
+      "import": "./packages/workflow/dist/index.js",
+      "types": "./packages/workflow/dist/index.d.ts"
+    }
+  },
+  "imports": {
+    "#config/*": "./packages/config/src/*",
+    "#agents/*": "./packages/agents/src/*",
+    "#utils/*": "./packages/utils/src/*",
+    "#workflow/*": "./packages/workflow/src/*"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun run build:clean && bun run build:packages && bun run build:main",
+    "build:clean": "rm -rf dist packages/*/dist",
+    "build:packages": "bun run --parallel --cwd packages/* build",
+    "build:main": "bun build ./src/index.ts --outdir ./dist --target node",
+    "build:binary": "bun build ./src/index.ts --compile --outfile github-stars-ai",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
+    "test": "bun test",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@langchain/anthropic": "^0.1.1",
+    "@langchain/community": "^0.0.26",
+    "@langchain/core": "^0.1.26",
+    "@langchain/langgraph": "^0.0.7",
+    "c12": "^1.5.1",
+    "citty": "^0.1.5",
+    "consola": "^3.2.3",
+    "destr": "^2.0.2",
+    "hookable": "^5.5.3",
+    "rc9": "^2.1.1",
+    "typesense": "^1.7.2",
+    "unctx": "^2.3.1",
+    "unplugin": "^1.7.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "@types/node": "^20.11.19",
+    "bun-types": "latest",
+    "husky": "^9.0.11",
+    "typescript": "^5.3.3"
+  },
+  "module": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "packages/*/dist"
+  ],
+  "keywords": [
+    "ai",
+    "github",
+    "langchain",
+    "claude",
+    "anthropic",
+    "code-analysis",
+    "code-generation"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/github-stars-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/github-stars-ai/issues"
+  },
+  "homepage": "https://github.com/yourusername/github-stars-ai#readme"
+}
