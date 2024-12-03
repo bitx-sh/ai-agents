@@ -1,0 +1,27 @@
+entrypoint = "src/index.ts"
+
+hidden = [".config", "bun.lockb"]
+modules = [
+  "bun-1.1",
+  "bash",
+  "nix",
+  "replit-rtld-loader",
+  "rust-nightly",
+  "docker",
+  "dart-2.18",
+  "nodejs-22",
+  "postgresql-16",
+  "python-base-3.13",
+]
+
+[nix]
+channel = "unstable"
+
+[deployment]
+# build = ["sh", "-c", "mkdir .build && bun build index.ts > .build/index.js"]
+# run = ["bun", "src/index.ts"]
+#deploymentTarget = "cloudrun"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
