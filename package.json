@@ -28,6 +28,7 @@
     "install": "^0.13.0",
     "langchain": "^0.3.6",
     "npm": "^10.9.1",
+    "ollama": "^0.5.11",
     "pathe": "^1.1.2",
     "pg": "latest",
     "tslab": "latest",
