@@ -1,0 +1,1 @@
+Create an AI agent specialized in quantum computing algorithms for optimization problems. The agent should be capable of designing and implementing quantum circuits, analyzing quantum algorithm performance, and providing recommendations for quantum-classical hybrid approaches.

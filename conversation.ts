@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const anthropic = new Anthropic({
   // defaults to process.env["ANTHROPIC_API_KEY"]
-  apiKey: "my_api_key",
+  apiKey: process.env["ANTHROPIC_API_KEY"]
 });
 
 // Replace placeholders like {{README_CONTENT}} with real values,

@@ -1,42 +1,10 @@
 You are an AI assistant tasked with generating a fully populated prompt role based on a supplied template and specifications. Your goal is to create a comprehensive and detailed role description for an AI agent in a specific technical category.
 
-First, review the README content:
-<readme>
-{{README_CONTENT}}
-</readme>
+First, review the README content with categories:
 
-Now, examine the template you will use to structure your output:
-<template>
-{{TEMPLATE}}
-</template>
-
-
-To complete this task, follow these steps:
-
-1. Carefully read and understand the category description from the README.
-2. Use the provided template to structure your output.
-3. For each section in the template, generate relevant and detailed content specific to the given category.
-4. Ensure that all generated content is technically accurate, comprehensive, and aligns with the category's focus.
-5. Use your knowledge of software development, best practices, and industry standards to inform your content generation.
-6. Be creative and thorough in your descriptions, providing specific examples and details where appropriate.
-7. Maintain consistency in tone and style throughout the generated content.
-8. Ensure that the generated content follows the Unix Philosophy principles and adheres to best practices in software development.
-
-When generating content:
-- For lists (e.g., VALIDATION_CHECKS, TESTING_REQUIREMENTS), provide at least 5-7 relevant items.
-- For nested structures (e.g., KNOWLEDGE_AREAS), create 3-5 main categories with 3-5 items each.
-- When creating example configurations or code snippets, ensure they are realistic and relevant to the category.
-- Generate plausible and useful variable names, function names, and code structures in the CONFIG_SCHEMA and EXAMPLE_CONFIG sections.
-- Create meaningful and category-specific templates for the generator sections (VARIABLE_GENERATOR_TEMPLATE, TEST_GENERATOR_TEMPLATE, etc.).
-
-Your output should be a fully populated version of the provided template, with all placeholders replaced by relevant, detailed, and technically accurate content specific to the given category.
-
-Begin your response with <generated_content> and end it with </generated_content>. Do not include any explanation or commentary outside of these tags.
 
 
 The following  is readme.md AI LLM agent role categories and a single agent role markdown template. Your task is to loop over all categories one at a time, and generate a fully populated prompt role based on the supplied template and humans specifications and instructions. 
-
-Here's the readme with categories: 
 
 <readme.md>
 ```markdown
@@ -476,3 +444,43 @@ See our [public roadmap](ROADMAP.md) for upcoming features and improvements.
 
 ```
 </readme.md>
+
+Now, examine the template you will use to structure your output:
+<template>
+{{TEMPLATE}}
+</template>
+
+
+
+To complete this task, follow these steps:
+
+1. Carefully read and understand the category description from the README.
+2. Use the provided template to structure your output.
+3. For each section in the template, generate relevant and detailed content specific to the given category.
+4. Ensure that all generated content is technically accurate, comprehensive, and aligns with the category's focus.
+5. Use your knowledge of software development, best practices, and industry standards to inform your content generation.
+6. Be creative and thorough in your descriptions, providing specific examples and details where appropriate.
+7. Maintain consistency in tone and style throughout the generated content.
+8. Ensure that the generated content follows the Unix Philosophy principles and adheres to best practices in software development.
+
+When generating content:
+- For lists (e.g., VALIDATION_CHECKS, TESTING_REQUIREMENTS), provide at least 5-7 relevant items.
+- For nested structures (e.g., KNOWLEDGE_AREAS), create 3-5 main categories with 3-5 items each.
+- When creating example configurations or code snippets, ensure they are realistic and relevant to the category.
+- Generate plausible and useful variable names, function names, and code structures in the CONFIG_SCHEMA and EXAMPLE_CONFIG sections.
+- Create meaningful and category-specific templates for the generator sections (VARIABLE_GENERATOR_TEMPLATE, TEST_GENERATOR_TEMPLATE, etc.).
+
+Your output should be a fully populated version of the provided template, with all placeholders replaced by relevant, detailed, and technically accurate content specific to the given category.
+
+Finally, here is the agent name you've been asked to generate: 
+
+<agent_name>
+{{AGENT_NAME}}
+</agent_name>
+
+And some additional details:
+<instructions>
+{{INSTRUCTIONS}}
+</instructions>
+
+Begin your response with <agentfile> and end it with </agentfile>. Do not include any explanation or commentary outside of these tags, either before or after.
