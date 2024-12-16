@@ -1,0 +1,121 @@
+# Full Stack Application Template Configuration
+structure:
+  prompt: |
+    Generate a full-stack application with the following structure:
+    /frontend
+      /src
+        /components
+        /pages
+        /features
+        /api
+        /utils
+        /hooks
+        /styles
+    /backend
+      /src
+        /controllers
+        /services
+        /models
+        /middleware
+        /utils
+        /config
+    /shared
+      /types
+      /constants
+      /utils
+
+    Include:
+    1. API route handling
+    2. Database integration
+    3. Authentication system
+    4. Error handling
+    5. Logging
+    6. Testing setup
+    7. Documentation
+
+examples:
+  apiRoute: |
+    import { Router } from 'express';
+    import { authenticate } from '../middleware/auth';
+    import { validate } from '../middleware/validate';
+    import { createItemSchema } from '../schemas/item';
+
+    const router = Router();
+
+    router.get('/items', authenticate, async (req, res) => {
+      try {
+        const items = await ItemService.findAll({
+          userId: req.user.id,
+          ...req.query
+        });
+        res.json(items);
+      } catch (error) {
+        logger.error('Failed to fetch items:', error);
+        res.status(500).json({ 
+          error: 'Internal server error',
+          requestId: req.id 
+        });
+      }
+    });
+
+    router.post('/items', 
+      authenticate, 
+      validate(createItemSchema),
+      async (req, res) => {
+        try {
+          const item = await ItemService.create({
+            ...req.body,
+            userId: req.user.id
+          });
+          res.status(201).json(item);
+        } catch (error) {
+          logger.error('Failed to create item:', error);
+          res.status(500).json({ 
+            error: 'Internal server error',
+            requestId: req.id 
+          });
+        }
+    });
+
+  service: |
+    import { DatabaseError } from '../errors';
+    import { Item, ItemCreateInput } from '../types';
+    import { db } from '../config/database';
+
+    export class ItemService {
+      static async findAll(params: {
+        userId: string;
+        page?: number;
+        limit?: number;
+        sort?: string;
+      }): Promise<Item[]> {
+        const { userId, page = 1, limit = 10, sort = 'createdAt:desc' } = params;
+
+        try {
+          const [sortField, sortOrder] = sort.split(':');
+
+          const items = await db.item.findMany({
+            where: { userId },
+            orderBy: { [sortField]: sortOrder },
+            skip: (page - 1) * limit,
+            take: limit,
+          });
+
+          return items;
+        } catch (error) {
+          throw new DatabaseError('Failed to fetch items', { cause: error });
+        }
+      }
+
+      static async create(input: ItemCreateInput): Promise<Item> {
+        try {
+          const item = await db.item.create({
+            data: input,
+          });
+
+          return item;
+        } catch (error) {
+          throw new DatabaseError('Failed to create item', { cause: error });
+        }
+      }
+    }

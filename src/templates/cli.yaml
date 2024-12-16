@@ -1,0 +1,78 @@
+# CLI Tool Template Configuration
+structure:
+  prompt: |
+    Generate a modern CLI tool with the following structure:
+    /src
+      /commands        # Individual command implementations
+      /utils          # Shared utilities
+      /config         # Configuration management
+      /templates      # Templates for generation
+    /test            # Test files
+    /docs            # Documentation
+
+    Include:
+    1. Command parsing
+    2. Interactive prompts
+    3. Error handling
+    4. Logging system
+    5. Configuration management
+    6. Testing setup
+
+examples:
+  command: |
+    import { Command } from 'commander';
+    import inquirer from 'inquirer';
+    import chalk from 'chalk';
+    import { createSpinner } from 'nanospinner';
+    import { logger } from '../utils/logger';
+    import { Config } from '../config';
+
+    export const initCommand = new Command('init')
+      .description('Initialize a new project')
+      .option('-t, --template <type>', 'project template to use')
+      .option('-n, --name <name>', 'project name')
+      .action(async (options) => {
+        try {
+          // Get project details through interactive prompt if not provided
+          const answers = await inquirer.prompt([
+            {
+              type: 'input',
+              name: 'name',
+              message: 'What is your project name?',
+              when: !options.name,
+              validate: (input) => input.length > 0,
+            },
+            {
+              type: 'list',
+              name: 'template',
+              message: 'Which template would you like to use?',
+              when: !options.template,
+              choices: Config.getTemplates(),
+            },
+          ]);
+
+          const spinner = createSpinner('Initializing project...').start();
+
+          // Combine CLI options and prompt answers
+          const projectConfig = {
+            name: options.name || answers.name,
+            template: options.template || answers.template,
+          };
+
+          // Initialize project
+          await initializeProject(projectConfig);
+
+          spinner.success({ text: chalk.green('Project initialized successfully!') });
+
+          // Show next steps
+          console.log(
+            chalk.blue('\nNext steps:'),
+            `\n  cd ${projectConfig.name}`,
+            '\n  npm install',
+            '\n  npm run dev\n'
+          );
+        } catch (error) {
+          logger.error('Failed to initialize project:', error);
+          process.exit(1);
+        }
+      });
