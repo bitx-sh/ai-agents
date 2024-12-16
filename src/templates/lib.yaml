@@ -1,0 +1,74 @@
+# NPM Package Template Configuration
+structure:
+  prompt: |
+    Generate an NPM package with the following structure:
+    /src
+      /core           # Core functionality
+      /utils          # Utility functions
+      /types          # TypeScript types
+    /test            # Test files
+    /examples        # Usage examples
+    /docs            # Documentation
+
+    Include:
+    1. TypeScript configuration
+    2. Build system
+    3. Testing setup
+    4. Documentation generation
+    5. Release workflow
+    6. Example implementations
+
+examples:
+  package: |
+    {
+      "name": "package-name",
+      "version": "1.0.0",
+      "description": "Package description",
+      "main": "dist/index.js",
+      "module": "dist/index.mjs",
+      "types": "dist/index.d.ts",
+      "files": [
+        "dist"
+      ],
+      "scripts": {
+        "build": "tsup",
+        "test": "vitest",
+        "lint": "eslint src",
+        "typecheck": "tsc --noEmit",
+        "docs": "typedoc",
+        "prepublishOnly": "npm run build",
+        "release": "npm run test && npm run build && changeset publish"
+      },
+      "keywords": [],
+      "author": "",
+      "license": "MIT",
+      "devDependencies": {
+        "@changesets/cli": "^2.26.2",
+        "@types/node": "^18.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.62.0",
+        "@typescript-eslint/parser": "^5.62.0",
+        "eslint": "^8.45.0",
+        "tsup": "^7.1.0",
+        "typedoc": "^0.24.8",
+        "typescript": "^5.1.6",
+        "vitest": "^0.33.0"
+      },
+      "publishConfig": {
+        "access": "public"
+      }
+    }
+
+  config: |
+    // tsup.config.ts
+    import { defineConfig } from 'tsup';
+
+    export default defineConfig({
+      entry: ['src/index.ts'],
+      format: ['cjs', 'esm'],
+      dts: true,
+      splitting: false,
+      sourcemap: true,
+      clean: true,
+      minify: true,
+      treeshake: true,
+    });
