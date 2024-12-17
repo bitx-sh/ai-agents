@@ -16,6 +16,8 @@ main() {
     validate_environment
     create_directory_structure
     setup_ruby_environment
+    setup_node_environment
+    setup_discourse
     
     success "Initial setup completed successfully!"
 }
