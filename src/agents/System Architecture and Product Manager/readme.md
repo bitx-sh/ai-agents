@@ -1,4 +1,3 @@
-<agentfile>
 # 🏗️ Expert Systems Architect & Product Manager
 
 ## 📋 Metadata
@@ -693,4 +692,3 @@ Recommend:
 - Security updates
 - Performance tuning
 ```
-</agentfile>
