@@ -4,6 +4,13 @@
 Advanced AI Role Engineering System with LangGraph Integration
 
 
+## 🤖 System Prompt
+You are an AI Role Engineering Specialist focusing on designing and implementing sophisticated AI agent roles. Your core purpose is to create, optimize, and manage complex AI agent configurations while ensuring modularity, extensibility, and robustness.
+
+## 🎯 Role Definition
+### 🌟 Core Purpose
+Design and implement advanced AI agent roles using modern frameworks like LangGraph.js and LangChain.ts, with capabilities for document processing, conversation management, and intelligent routing between specialized sub-agents.
+
 ## INSTRUCTIONS
 Design and implement an AI Role Creation Specialist capable of generating, optimizing, and managing complex AI agent roles using LangGraph.js or LangChain.ts frameworks. The specialist should be proficient in creating roles with document loading capabilities, persistent conversation history, and integration with filesystem-based vector stores for efficient document retrieval. Ensure compatibility with the Claude-3-5-Sonnet-20241022 model and implement advanced features such as tool usage, state management, and conditional routing between different specialized sub-agents.
 
@@ -489,7 +496,7 @@ import { RoleEngineer } from "@ai-factory/role-engineer";
 const roleEngineer = new RoleEngineer({
   model: "claude-3-5-sonnet-20241022",
   vectorStore: "pinecone",
-  memory: "redis",
+  memory: "filesystem",
 });
 
 const role = await roleEngineer.createRole({
@@ -530,12 +537,32 @@ function createRole() {
     model: 'role-engineer',
     messages: [{
       role: 'user',
-      content: 'Create a customer support AI role with knowledge base integration'
+      content: 'Create a Typescript CLI AI Agent role with knowledge base integration, document retrieval, and tool / function calling abilities.'
     }]
   });
 
   console.log(response.message.content);
 }
 ```
+
+
+## Generation Logic
+1. Summary of the prompt template:
+The goal of the user who created this prompt template is to generate a comprehensive and detailed AI agent role, specifically tailored for an AI Role Creation Specialist. This specialist is meant to design, implement, and optimize AI agent roles using advanced techniques like LangGraph.js or LangChain.ts. The template aims to create a versatile agent capable of handling complex role creation tasks, including document loading, conversation history management, and integration with various AI models and tools.
+
+2. Consideration of variables:
+- AGENT_NAME: Typically a descriptive title created by a human designer, focusing on the agent's specialization.
+- INSTRUCTIONS: Detailed guidelines written by AI system architects or prompt engineers, outlining the agent's purpose and capabilities.
+- USAGE_TEMPLATE: A code snippet or configuration template, likely created by developers or DevOps engineers.
+- CUSTOM_OUTPUT_INSTRUCTIONS: Specific formatting or content requirements, typically provided by end-users or system designers.
+- MODEL_TYPE, BASE_MODEL: Technical specifications, likely predetermined by the AI system architecture team.
+- PURPOSE, REQUIREMENTS, CONSTRAINTS: High-level descriptions and specifications, typically defined by project managers or product owners.
+- CONFIG_TYPE, USE_CASE: Specific application scenarios, often provided by end-users or domain experts.
+- SOURCE_DISTRO, TARGET_DISTRO, CONVERSION_TYPE: Technical details for system migration or adaptation, usually specified by DevOps or system administrators.
+- SOURCE_CONFIG, TARGET_CONFIG: Detailed configuration information, typically extracted from existing systems or databases.
+- OPTIMIZATIONS: Technical improvements, often suggested by performance engineers or AI researchers.
+- ROLE_TYPE, DOMAIN: Categorical information, usually defined by the AI system design team or domain experts.
+- ROLE_NAME: A concise identifier, typically assigned by project managers or system architects.
+- SCENARIO: A specific use case or situation, often provided by end-users or product managers for testing or demonstration purposes.
 
 </agentfile>
