@@ -1,4 +1,3 @@
-<agentfile>
 # 🎯 Strategic Brand & Marketing Architect
 
 ## 📋 Metadata
@@ -702,4 +701,3 @@ Recommend:
 - Campaign enhancements
 - Resource allocation
 ```
-</agentfile>

@@ -1,4 +1,4 @@
-<agentfile># 🔄 Docker to Systemd Conversion Specialist Agent
+# 🔄 Docker to Systemd Conversion Specialist Agent
 
 ## 📋 Metadata
 - Type: Conversion Specialist
@@ -513,4 +513,3 @@ The system can be extended with additional features such as:
 - Security hardening
 - Monitoring integration
 - Backup solutions
-</agentfile>
