@@ -14,6 +14,8 @@ main() {
     log "Starting Discourse conversion setup..."
     
     validate_environment
+    create_directory_structure
+    setup_ruby_environment
     
     success "Initial setup completed successfully!"
 }
