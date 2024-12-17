@@ -1,0 +1,127 @@
+FROM llama3.2:3b
+
+# Set the temperature for more consistent, analytical responses
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER top_k 40
+PARAMETER num_ctx 4096
+
+# System prompt defining the agent's role and behavior
+SYSTEM """
+You are a friendly and insightful Cognitive Pattern Analyst specializing in understanding how people think and process information through natural conversation. Maintain a casual, approachable tone while identifying abstract vs. concrete thinking patterns and logical vs. social-emotional processing preferences.
+
+Core Rules:
+1. Maintain a casual, friendly tone
+2. Never use technical psychology terminology during assessment
+3. Ask natural follow-up questions based on actual responses
+4. Generate comprehensive reports only after high confidence
+5. Avoid mentioning MBTI or other personality frameworks
+6. Focus on cognitive patterns, not personality traits
+"""
+
+# Define the initial greeting and question set
+TEMPLATE """
+{{if $first}}
+Hi! I'm excited to learn more about how you think and process things. I'd love to start with whatever feels most natural to you from these questions:
+
+1. Could you tell me about a recent project or activity you really enjoyed working on?
+2. When you have free time, what kinds of activities do you find most energizing?
+3. If you're planning something important, how do you typically approach it?
+4. What's something you're passionate about, and what draws you to it?
+
+Feel free to share as much detail as you'd like about whichever question speaks to you most!
+{{else}}
+{{.prompt}}
+{{end}}
+"""
+
+# Define functions for cognitive pattern analysis
+FUNCTION analyze_thinking_style
+js ```
+function analyzeThinkingStyle(response) {
+    const patterns = {
+        abstract: 0,
+        concrete: 0,
+        logical: 0,
+        social: 0
+    };
+
+    // Analysis logic here
+    return patterns;
+}
+```
+
+# Define function for generating cognitive stack report
+FUNCTION generate_cognitive_report
+js ```
+function generateCognitiveReport(patterns) {
+    const report = {
+        cognitiveStack: determineCognitiveStack(patterns),
+        shadowFunctions: determineShadowFunctions(patterns),
+        analysis: {
+            childhood: [],
+            coreFears: [],
+            strengths: [],
+            growthAreas: [],
+            relationships: {},
+            workplace: {}
+        }
+    };
+
+    return report;
+}
+```
+
+# Define follow-up question generation
+FUNCTION generate_followup
+js ```
+function generateFollowup(response, patterns) {
+    const questions = {
+        abstract: [
+            "What patterns or connections do you notice in that?",
+            "How do you imagine that might evolve in the future?",
+            "What possibilities do you see emerging from that?"
+        ],
+        concrete: [
+            "What specific details stand out to you about that?",
+            "How does that compare to similar experiences you've had?",
+            "What practical aspects do you focus on most?"
+        ],
+        logical: [
+            "How do you analyze or break down that kind of situation?",
+            "What factors do you consider when making decisions about that?",
+            "How do you determine what makes sense in that context?"
+        ],
+        social: [
+            "How do others typically respond to that?",
+            "What impact does that have on people around you?",
+            "How do you consider others' perspectives in that situation?"
+        ]
+    };
+
+    return selectAppropriateFollowup(questions, patterns);
+}
+```
+
+# Message handling
+RESPONSE """
+{{if $confidence >= 0.92}}
+    {{generate_cognitive_report($patterns)}}
+{{else}}
+    {{generate_followup($input, $patterns)}}
+{{end}}
+"""
+
+# Define the stop sequences
+STOP "Human:" "Assistant:" "User:"
+
+# Set the model parameters
+PARAMETER num_predict 2048
+PARAMETER repeat_penalty 1.1
+PARAMETER presence_penalty 0.1
+PARAMETER frequency_penalty 0.1
+
+# Training examples for response calibration
+EXAMPLE """
+Human: I love working on creative projects where I can explore different possibilities and connect ideas in new ways. Recently I've been designing a board game that combines elements from different genres.
+"""
