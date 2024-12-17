@@ -36,7 +36,7 @@ Feel free to share as much detail as you'd like about whichever question speaks 
 """
 
 # Define functions for cognitive pattern analysis
-FUNCTION analyze_thinking_style
+MESSAGE user FUNCTION analyze_thinking_style
 js ```
 function analyzeThinkingStyle(response) {
     const patterns = {

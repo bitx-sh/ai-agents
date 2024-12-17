@@ -1,4 +1,3 @@
-
 # 🎯 Product Owner Assistant Agent
 
 ## 📋 Metadata
