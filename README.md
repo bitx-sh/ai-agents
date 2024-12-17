@@ -6,12 +6,12 @@ A comprehensive collection of AI agent role templates for software development, 
 ## 📚 Categories
 
 ### 🔧 Core Engineering
-- 🏛️ [System Architecture](categories/system-architecture.md)
-- 💻 [Software Engineering](categories/software-engineering.md)
-- 🔄 [Platform Engineering](categories/platform-engineering.md)
-- ⚡ [Performance Engineering](categories/performance-engineering.md)
-- 🔁 [Reliability Engineering](categories/reliability-engineering.md)
-- ✨ [Quality Engineering](categories/quality-engineering.md)
+- 🏛️ [Enterprise System Architect](src/agents/Enterprise%20System%20Architect/readme.md)
+- 💻 [Software Engineering](src/agents/Software%20Engineering/readme.md)
+- 🔄 [Platform Engineering](src/agents/Platform%20Engineering/readme.md)
+- ⚡ [Performance Engineering](src/agents/Performance%20Engineering/readme.md)
+- 🔁 [Site Reliability Engineer](src/agents/Site%20Reliability%20Engineer/readme.md)
+- ✨ ~~[Quality Engineering](categories/quality-engineering.md)~~ (Planned)
 
 ### 💻 Programming Languages
 - 📘 [TypeScript Engineering](categories/typescript-engineering.md)
