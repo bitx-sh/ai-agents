@@ -1,0 +1,28 @@
+{
+  "name": "@github-stars-ai/config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun build ./src/index.ts --outdir ./dist --target node",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "c12": "^1.5.1",
+    "destr": "^2.0.2",
+    "rc9": "^2.1.1",
+    "zod": "^3.22.4"
+  }
+}
