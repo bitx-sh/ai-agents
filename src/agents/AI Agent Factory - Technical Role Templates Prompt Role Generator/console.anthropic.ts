@@ -1,49 +1,342 @@
 import Anthropic from "@anthropic-ai/sdk";
 import anthropicConfig from "./anthropic.config.json" with { type: "json" };
+import categories from "./categories.json" with { type: "json" };
+
 //import { Bun } from "bun";
 import Bun from "bun";
 import { readdir, mkdir } from "node:fs/promises";
 
-const agentRole = `TypeScript Engineering`;
+const agentRole = `Full Stack Engineering`;
 
 let agents = [];
+
+const agentRoles = [
+  "Core Engineering Domains/🏛️ Enterprise System Architecture",
+  "Core Engineering Domains/💻 Software Engineering",
+  "Core Engineering Domains/🔄 Platform Engineering",
+  "Core Engineering Domains/⚡ Performance Engineering",
+  "Core Engineering Domains/🔁 Site Reliability Engineer",
+  "Core Engineering Domains/✨ Quality Engineering",
+  "Core Engineering Domains/🚀 Release Engineering",
+  "Core Engineering Domains/🛡️ Security Engineering",
+  "Core Engineering Domains/📈 Data Engineering",
+  "Core Engineering Domains/🧪 Test Automation Engineering",
+  "Core Engineering Domains/📦 Package Maintenance Engineer",
+  "Core Engineering Domains/🛠️ DevOps Engineering",
+  "Core Engineering Domains/📉 Performance Tuning Engineering",
+  "Core Engineering Domains/🌐 Full Stack Engineering",
+  "Core Engineering Domains/🔍 Search Engineering",
+  "Software Development/Programming Languages/🐍 Python Engineering",
+  "Software Development/Programming Languages/📘 TypeScript Engineering",
+  "Software Development/Programming Languages/💛 JavaScript Engineering",
+  "Software Development/Programming Languages/☕ Java Engineering",
+  "Software Development/Programming Languages/🦀 Rust Engineering",
+  "Software Development/Programming Languages/⚡ C++ Engineering",
+  "Software Development/Programming Languages/🌟 C# Engineering",
+  "Software Development/Programming Languages/🐹 Go Engineering",
+  "Software Development/Programming Languages/🍎 Swift Engineering",
+  "Software Development/Programming Languages/🖥️ C Engineering",
+  "Software Development/Programming Languages/💜 Kotlin Engineering",
+  "Software Development/Programming Languages/💎 Ruby Engineering",
+  "Software Development/Programming Languages/🟣 Haskell Engineering",
+  "Software Development/Programming Languages/🔴 Scala Engineering",
+  "Software Development/Programming Languages/💧 Elixir Engineering",
+  "Software Development/Programming Languages/📈 Julia Engineering",
+  "Software Development/Programming Languages/📜 Objective-C Engineering",
+  "Software Development/Programming Languages/🔄 Shell Scripting Engineering",
+  "Software Development/Programming Languages/🧬 R Engineering",
+  "Software Development/Programming Languages/➕ PL/SQL Engineering",
+  "Software Development/Programming Languages/💽 Assembly Engineering",
+  "Software Development/Programming Languages/📝 MATLAB Engineering",
+  "Software Development/Programming Languages/📊 SAS Engineering",
+  "Software Development/Programming Languages/🗃️ COBOL Engineering",
+  "Software Development/Programming Languages/⏲️ Ada Engineering",
+  "Software Development/Programming Languages/🌲 Lisp Engineering",
+  "Software Development/Programming Languages/🌌 Prolog Engineering",
+  "Software Development/Programming Languages/🌱 Clojure Engineering",
+  "Software Development/Programming Languages/🐢 Tcl Engineering",
+  "Software Development/Programming Languages/♾️ Erlang Engineering",
+  "Software Development/Programming Languages/🧪 LabVIEW Engineering",
+  "Software Development/Programming Languages/🧬 VHDL Engineering",
+  "Software Development/Programming Languages/⚗️ Verilog Engineering",
+  "Software Development/Web Technologies/📱 Accelerated Mobile Pages",
+  "Software Development/Web Technologies/⚙️ Back-End Development",
+  "Software Development/Web Technologies/⚙️ Backend-as-a-Service",
+  "Software Development/Web Technologies/🖥️ Cloud-Native Web Development",
+  "Software Development/Web Technologies/🔗 Content Management Systems",
+  "Software Development/Web Technologies/📈 Conversion Rate Optimization",
+  "Software Development/Web Technologies/🌍 Cross-Browser Development",
+  "Software Development/Web Technologies/🛡️ Data Privacy Management",
+  "Software Development/Web Technologies/📊 Digital Marketing",
+  "Software Development/Web Technologies/🔌 GraphQL APIs",
+  "Software Development/Web Technologies/🦾 JavaScript Frameworks",
+  "Software Development/Web Technologies/🧬 Micro Frontends",
+  "Software Development/Web Technologies/📓 RESTful API Design",
+  "Software Development/Web Technologies/📋 SEO Optimization",
+  "Software Development/Web Technologies/🌐 Serverless Computing",
+  "Software Development/Web Technologies/🚀 Single Page Applications",
+  "Software Development/Web Technologies/🏛️ Static Site Generators",
+  "Software Development/Web Technologies/📈 UX Design",
+  "Software Development/Web Technologies/⌛ Web Assembly",
+  "Software Development/Web Technologies/🎨 Frontend Development",
+  "Software Development/Web Technologies/⚡ Web Performance",
+  "Software Development/Web Technologies/📱 Progressive Web Apps",
+  "Software Development/Web Technologies/🧩 Web Components",
+  "Software Development/Web Technologies/🌐 Browser Engineering",
+  "Software Development/Web Technologies/📋 Web Standards",
+  "Software Development/Web Technologies/🔒 Web Security",
+  "Software Development/Web Technologies/♿ Web Accessibility",
+  "Software Development/Web Technologies/📊 Web Analytics",
+  "Software Development/Web Technologies/🧪 Web Testing",
+  "Software Development/Frontend Specializations/⚛️ React Engineering",
+  "Software Development/Frontend Specializations/🎯 Angular Engineering",
+  "Software Development/Frontend Specializations/💚 Vue Engineering",
+  "Software Development/Frontend Specializations/📱 Mobile Web",
+  "Software Development/Frontend Specializations/🎨 UI Engineering",
+  "Software Development/Frontend Specializations/🎭 Animation Engineering",
+  "Software Development/Frontend Specializations/📊 Data Visualization",
+  "Software Development/Frontend Specializations/🖼️ WebGL Engineering",
+  "Software Development/Frontend Specializations/🎮 Web Gaming",
+  "Software Development/Frontend Specializations/🔍 SEO Engineering",
+  "Software Development/Mobile & Cross-Platform/🍎 iOS Engineering",
+  "Software Development/Mobile & Cross-Platform/🤖 Android Engineering",
+  "Software Development/Mobile & Cross-Platform/🔄 Cross-Platform Development",
+  "Software Development/Mobile & Cross-Platform/⚡ Mobile Performance",
+  "Software Development/Mobile & Cross-Platform/🔒 Mobile Security",
+  "Software Development/Mobile & Cross-Platform/🧪 Mobile Testing",
+  "Software Development/Mobile & Cross-Platform/🚀 Mobile DevOps",
+  "Software Development/Mobile & Cross-Platform/📊 Mobile Analytics",
+  "Software Development/Mobile & Cross-Platform/🎨 Mobile UI/UX",
+  "Software Development/Mobile & Cross-Platform/♿ Mobile Accessibility",
+  "Infrastructure & Operations/DevOps & SRE/🚀 Continuous Integration",
+  "Infrastructure & Operations/DevOps & SRE/🔄 Continuous Deployment",
+  "Infrastructure & Operations/DevOps & SRE/🛠️ Pipeline Engineering",
+  "Infrastructure & Operations/DevOps & SRE/🐳 Container Management",
+  "Infrastructure & Operations/DevOps & SRE/☸️ Kubernetes Engineering",
+  "Infrastructure & Operations/DevOps & SRE/📦 Artifact Management",
+  "Infrastructure & Operations/DevOps & SRE/🔧 Configuration Management",
+  "Infrastructure & Operations/DevOps & SRE/📊 DevOps Metrics",
+  "Infrastructure & Operations/DevOps & SRE/🔍 DevOps Security",
+  "Infrastructure & Operations/DevOps & SRE/📈 DevOps Analytics",
+  "Infrastructure & Operations/Cloud & Infrastructure/🌩️ AWS Engineering",
+  "Infrastructure & Operations/Cloud & Infrastructure/🌥️ Azure Engineering",
+  "Infrastructure & Operations/Cloud & Infrastructure/🌐 GCP Engineering",
+  "Infrastructure & Operations/Cloud & Infrastructure/☁️ Multi-Cloud",
+  "Infrastructure & Operations/Cloud & Infrastructure/🏢 Private Cloud",
+  "Infrastructure & Operations/Cloud & Infrastructure/🔄 Cloud Migration",
+  "Infrastructure & Operations/Cloud & Infrastructure/💰 Cloud Cost Engineering",
+  "Infrastructure & Operations/Cloud & Infrastructure/🔒 Cloud Security",
+  "Infrastructure & Operations/Cloud & Infrastructure/📊 Cloud Analytics",
+  "Infrastructure & Operations/Cloud & Infrastructure/⚡ Cloud Performance",
+  "Infrastructure & Operations/Network Engineering/🌐 Network Protocol",
+  "Infrastructure & Operations/Network Engineering/🔄 Load Balancing",
+  "Infrastructure & Operations/Network Engineering/🛡️ Network Security",
+  "Infrastructure & Operations/Network Engineering/📡 SDN Engineering",
+  "Infrastructure & Operations/Network Engineering/🔌 Network Automation",
+  "Infrastructure & Operations/Network Engineering/📊 Network Monitoring",
+  "Infrastructure & Operations/Network Engineering/🌐 DNS Engineering",
+  "Infrastructure & Operations/Network Engineering/🔒 VPN Engineering",
+  "Infrastructure & Operations/Network Engineering/📡 5G Engineering",
+  "Infrastructure & Operations/Network Engineering/🌐 CDN Engineering",
+  "Infrastructure & Operations/Build & Package Management/📦 Package Management",
+  "Infrastructure & Operations/Build & Package Management/🏗️ Build Systems",
+  "Infrastructure & Operations/Build & Package Management/🎯 Dependency Management",
+  "Infrastructure & Operations/Build & Package Management/🔄 Version Control",
+  "Infrastructure & Operations/Build & Package Management/📋 Release Management",
+  "Infrastructure & Operations/Build & Package Management/🏭 Artifact Management",
+  "Infrastructure & Operations/Build & Package Management/📚 Module Systems",
+  "Infrastructure & Operations/Build & Package Management/🔍 Code Generation",
+  "Infrastructure & Operations/Build & Package Management/⚡ Build Optimization",
+  "Infrastructure & Operations/Build & Package Management/🔒 Build Security",
+  "Security & Privacy/Security Engineering/🛡️ Security Engineering",
+  "Security & Privacy/Security Engineering/🔐 Application Security",
+  "Security & Privacy/Security Engineering/🏰 Infrastructure Security",
+  "Security & Privacy/Security Engineering/☁️ Cloud Security",
+  "Security & Privacy/Security Engineering/📜 Compliance Engineering",
+  "Security & Privacy/Security Engineering/🕶️ Privacy Engineering",
+  "Security & Privacy/Security Engineering/🔏 Cryptography Engineering",
+  "Security & Privacy/Security Engineering/🚨 Security Operations",
+  "Security & Privacy/Security Engineering/🎯 Threat Modeling",
+  "Security & Privacy/Cryptography/🔒 Encryption Systems",
+  "Security & Privacy/Cryptography/🔑 PKI Engineering",
+  "Security & Privacy/Cryptography/🛡️ Security Protocols",
+  "Security & Privacy/Cryptography/🔐 Zero Trust Architecture",
+  "Security & Privacy/Cryptography/🔍 Security Analytics",
+  "Security & Privacy/Cryptography/🚨 Threat Detection",
+  "Security & Privacy/Cryptography/🛡️ WAF Engineering",
+  "Security & Privacy/Cryptography/🔒 Secrets Management",
+  "Security & Privacy/Cryptography/🔐 HSM Engineering",
+  "Security & Privacy/Cryptography/🛡️ DLP Engineering",
+  "Security & Privacy/Identity & Access Management/🔑 Authentication Systems",
+  "Security & Privacy/Identity & Access Management/🎫 Authorization Systems",
+  "Security & Privacy/Identity & Access Management/🔒 SSO Implementation",
+  "Security & Privacy/Identity & Access Management/🎭 Identity Federation",
+  "Security & Privacy/Identity & Access Management/🔐 OAuth/OIDC",
+  "Security & Privacy/Identity & Access Management/📱 MFA Systems",
+  "Security & Privacy/Identity & Access Management/🗝️ Key Management",
+  "Security & Privacy/Identity & Access Management/👤 User Management",
+  "Security & Privacy/Identity & Access Management/🔍 Access Analytics",
+  "Security & Privacy/Identity & Access Management/📋 Compliance Systems",
+  "Data & Analytics/Data Engineering/💾 Data Engineering",
+  "Data & Analytics/Data Engineering/🧮 Data Science Engineering",
+  "Data & Analytics/Data Engineering/📈 Analytics Engineering",
+  "Data & Analytics/Data Engineering/🏗️ Data Platform Engineering",
+  "Data & Analytics/Data Engineering/🔄 ETL Engineering",
+  "Data & Analytics/Data Engineering/🏢 Data Warehouse Engineering",
+  "Data & Analytics/Data Engineering/📊 Business Intelligence",
+  "Data & Analytics/Data Engineering/📉 Data Visualization",
+  "Data & Analytics/Data Engineering/🌊 Stream Processing",
+  "Data & Analytics/Analytics Engineering/📈 Product Analytics",
+  "Data & Analytics/Analytics Engineering/🔍 Search Analytics",
+  "Data & Analytics/Analytics Engineering/👤 User Analytics",
+  "Data & Analytics/Analytics Engineering/💰 Revenue Analytics",
+  "Data & Analytics/Analytics Engineering/🏷️ Marketing Analytics",
+  "Data & Analytics/Analytics Engineering/🔒 Security Analytics",
+  "Data & Analytics/Analytics Engineering/📱 Mobile Analytics",
+  "Data & Analytics/Analytics Engineering/🌐 Web Analytics",
+  "Data & Analytics/Analytics Engineering/📊 Real-time Analytics",
+  "Data & Analytics/Analytics Engineering/🤖 Predictive Analytics",
+  "Data & Analytics/Database Engineering/💾 SQL Engineering",
+  "Data & Analytics/Database Engineering/🔄 NoSQL Engineering",
+  "Data & Analytics/Database Engineering/📊 Time Series DB",
+  "Data & Analytics/Database Engineering/🔍 Search Engineering",
+  "Data & Analytics/Database Engineering/🗃️ Graph Databases",
+  "Data & Analytics/Database Engineering/🚀 In-Memory DB",
+  "Data & Analytics/Database Engineering/📈 Database Performance",
+  "Data & Analytics/Database Engineering/🔒 Database Security",
+  "Data & Analytics/Database Engineering/🔄 Database Replication",
+  "Data & Analytics/Database Engineering/💾 Data Migration",
+  "Quality & Testing/🔍 Test Engineering",
+  "Quality & Testing/🤖 Test Automation",
+  "Quality & Testing/⚡ Performance Testing",
+  "Quality & Testing/🛡️ Security Testing",
+  "Quality & Testing/🏋️ Load Testing",
+  "Quality & Testing/🔄 Integration Testing",
+  "Quality & Testing/🎯 E2E Testing",
+  "Quality & Testing/🔌 API Testing",
+  "Quality & Testing/📱 Mobile Testing",
+  "Quality & Testing/♿ Accessibility Testing",
+  "Architecture & Design/Architecture Domains/☁️ Cloud Architecture",
+  "Architecture & Design/Architecture Domains/🔄 Microservices Architecture",
+  "Architecture & Design/Architecture Domains/⚡ Serverless Architecture",
+  "Architecture & Design/Architecture Domains/🌊 Event-Driven Architecture",
+  "Architecture & Design/Architecture Domains/🎯 Domain-Driven Design",
+  "Architecture & Design/Architecture Domains/🔌 API Architecture",
+  "Architecture & Design/Architecture Domains/💾 Data Architecture",
+  "Architecture & Design/Architecture Domains/🛡️ Security Architecture",
+  "Architecture & Design/Architecture Domains/🔄 Integration Architecture",
+  "Architecture & Design/Architecture Domains/📱 Mobile Architecture",
+  "Architecture & Design/Architecture Domains/🎨 Frontend Architecture",
+  "Architecture & Design/Architecture Domains/⚙️ Backend Architecture",
+  "Architecture & Design/API & Integration/🔌 API Design",
+  "Architecture & Design/API & Integration/🔄 API Gateway",
+  "Architecture & Design/API & Integration/📡 GraphQL Engineering",
+  "Architecture & Design/API & Integration/🚀 REST API",
+  "Architecture & Design/API & Integration/📨 Message Queues",
+  "Architecture & Design/API & Integration/🔄 Event Streaming",
+  "Architecture & Design/API & Integration/🔗 Service Mesh",
+  "Architecture & Design/API & Integration/🤝 API Integration",
+  "Architecture & Design/API & Integration/📊 API Analytics",
+  "Architecture & Design/API & Integration/🔒 API Security",
+  "Performance & Observability/Performance Engineering/⚡ Load Optimization",
+  "Performance & Observability/Performance Engineering/🔄 Caching Systems",
+  "Performance & Observability/Performance Engineering/🌐 CDN Engineering",
+  "Performance & Observability/Performance Engineering/📊 Performance Analytics",
+  "Performance & Observability/Performance Engineering/🔍 Performance Profiling",
+  "Performance & Observability/Performance Engineering/🎯 Resource Optimization",
+  "Performance & Observability/Performance Engineering/📈 Scalability Engineering",
+  "Performance & Observability/Performance Engineering/🔧 Performance Tuning",
+  "Performance & Observability/Performance Engineering/🏎️ Speed Optimization",
+  "Performance & Observability/Performance Engineering/📱 Mobile Performance",
+  "Performance & Observability/Observability & Monitoring/📈 Metrics Engineering",
+  "Performance & Observability/Observability & Monitoring/📝 Logging Systems",
+  "Performance & Observability/Observability & Monitoring/🔍 Tracing Systems",
+  "Performance & Observability/Observability & Monitoring/🎯 APM Solutions",
+  "Performance & Observability/Observability & Monitoring/🚨 Alerting Systems",
+  "Performance & Observability/Observability & Monitoring/📊 Visualization Systems",
+  "Performance & Observability/Observability & Monitoring/🔍 Debug Engineering",
+  "Performance & Observability/Observability & Monitoring/📈 Performance Monitoring",
+  "Performance & Observability/Observability & Monitoring/🛡️ Security Monitoring",
+  "Performance & Observability/Observability & Monitoring/💰 Cost Monitoring",
+  "Emerging Technologies/AI & Machine Learning/🧠 AI Engineering",
+  "Emerging Technologies/AI & Machine Learning/🔬 ML Engineering",
+  "Emerging Technologies/AI & Machine Learning/🚀 MLOps Engineering",
+  "Emerging Technologies/AI & Machine Learning/💬 NLP Engineering",
+  "Emerging Technologies/AI & Machine Learning/👁️ Computer Vision",
+  "Emerging Technologies/AI & Machine Learning/🧮 Deep Learning",
+  "Emerging Technologies/AI & Machine Learning/🎮 Reinforcement Learning",
+  "Emerging Technologies/AI & Machine Learning/🏗️ AI Infrastructure",
+  "Emerging Technologies/AI & Machine Learning/🛡️ AI Security",
+  "Emerging Technologies/AI & Machine Learning/⚖️ AI Ethics",
+  "Emerging Technologies/Specialized Domains/⛓️ Blockchain Engineering",
+  "Emerging Technologies/Specialized Domains/🔌 IoT Engineering",
+  "Emerging Technologies/Specialized Domains/📡 Edge Computing",
+  "Emerging Technologies/Specialized Domains/🎮 Gaming Engineering",
+  "Emerging Technologies/Specialized Domains/🥽 AR/VR Engineering",
+  "Emerging Technologies/Specialized Domains/🔮 Quantum Computing",
+  "Emerging Technologies/Specialized Domains/🔧 Embedded Systems",
+  "Emerging Technologies/Specialized Domains/⚡ Real-Time Systems",
+  "Emerging Technologies/Specialized Domains/🎵 Audio Engineering",
+  "Emerging Technologies/Specialized Domains/🎥 Video Engineering",
+  "Automation & Tooling/🔄 Process Automation",
+  "Automation & Tooling/🤖 RPA Engineering",
+  "Automation & Tooling/🔧 Tool Automation",
+  "Automation & Tooling/📊 Test Automation",
+  "Automation & Tooling/🔄 Workflow Automation",
+  "Automation & Tooling/🤖 Bot Development",
+  "Automation & Tooling/📈 Analytics Automation",
+  "Automation & Tooling/🔒 Security Automation",
+  "Automation & Tooling/📝 Documentation Automation",
+  "Automation & Tooling/🔄 Infrastructure Automation",
+];
 
 const anthropic = new Anthropic({
   // defaults to process.env["ANTHROPIC_API_KEY"]
   apiKey: process.env["ANTHROPIC_API_KEY"],
 });
 
-// Create directory if it doesn't exist
-const dir = `../${agentRole}`;
+const responses = agentRoles.map(async (agentRole) => {
+  // Create directory if it doesn't exist
+  const dir = `../${agentRole}`;
+  console.log(`Creating ${dir}`);
 
-anthropicConfig.messages.push({
-  role: "user",
-  content: [
-    {
-      type: "text",
-      text: `Create a ${agentRole} Agent`,
-    },
-  ],
+  // Add message to config
+  const config = {
+    ...anthropicConfig,
+    messages: [
+      ...anthropicConfig.messages,
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: `Create an agent for: ${agentRole}`,
+          },
+        ],
+      },
+    ],
+  };
+  //console.log(JSON.stringify(anthropicConfig));
+
+  // Replace placeholders like {{AGENT_NAME}} with real values,
+  // because the SDK does not support variables.
+  const msg = await anthropic.messages.create(config);
+
+  anthropicConfig.messages.push(msg);
+
+  await Bun.write(`anthropic.config2.json`, JSON.stringify(anthropicConfig));
+
+  const roles = msg.content
+    .filter((content) => content.type === "text")
+    .map((content) => content.text)
+    .join("\n");
+
+  // Write the README file
+  await Bun.write(`${dir}/readme.md`, roles, {
+    createDirs: false,
+  });
+
+  return msg;
 });
 
-//console.log(JSON.stringify(anthropicConfig));
-
-// Replace placeholders like {{AGENT_NAME}} with real values,
-// because the SDK does not support variables.
-const msg = await anthropic.messages.create(anthropicConfig);
-
-anthropicConfig.messages.push(msg);
-
-await Bun.write(`anthropic.config.json`, anthropicConfig);
-
-const roles = msg.content
-  .filter((content) => content.type === "text")
-  .map((content) => content.text)
-  .join("\n");
-
-// Write the README file
-await Bun.write(`${dir}/readme.md`, anthropicConfig, {
-  createDirs: false,
-});
-
-console.log(msg);
+await Promise.all(responses);
