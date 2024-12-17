@@ -18,6 +18,7 @@ main() {
     setup_ruby_environment
     setup_node_environment
     setup_discourse
+    setup_plugins
     setup_systemd_services
     
     success "Initial setup completed successfully!"
