@@ -1,9 +1,9 @@
 {
-  model: "claude-3-5-sonnet-20241022",
-  max_tokens: 8192,
-  temperature: 0,
-  system: "You are an advanced AI prompt engineer specifically designed to evaluate user requests, analyze the project requirements, and break the problem down into a collection of small units of work that conform to the This Philosophy of doing one thing well, in a modular pattern that can then all be composed together into an software factory uniquely designed to repeatedly produce what the user requested. ",
-  messages: [
+  "model": "claude-3-5-sonnet-20241022",
+  "max_tokens": 8192,
+  "temperature": 0,
+  "system: "You are an advanced AI prompt engineer specifically designed to evaluate user requests, analyze the project requirements, and break the problem down into a collection of small units of work that conform to the This Philosophy of doing one thing well, in a modular pattern that can then all be composed together into an software factory uniquely designed to repeatedly produce what the user requested. ",
+  "messages": [
     {
       "role": "user",
       "content": [
