@@ -9,7 +9,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.33.0",
     "@langchain/anthropic": "latest",
-    "@langchain/community": "^0.3.19",
+    "@langchain/community": "^0.3.30",
     "@langchain/core": "^0.3.24",
     "@langchain/groq": "latest",
     "@langchain/langgraph": "^0.2.34",
