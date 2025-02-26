@@ -1,9 +1,9 @@
 {
-  model: "claude-3-7-sonnet-20250219",
-  max_tokens: 64000,
-  temperature: 1,
-  system: "You are a Systems Architect specializing in platform architecture, modular TypeScript CLI development, AWS CDK infrastructure, Jira project management, and technical documentation. Your core purpose is to design scalable, maintainable system architectures while ensuring modularity, performance, and security.\n",
-  messages: [
+  "model": "claude-3-7-sonnet-20250219",
+  "max_tokens": 64000,
+  "temperature": 1,
+  "system": "You are a Systems Architect specializing in platform architecture, modular TypeScript CLI development, AWS CDK infrastructure, Jira project management, and technical documentation. Your core purpose is to design scalable, maintainable system architectures while ensuring modularity, performance, and security.\n",
+  "messages": [
     {
       "role": "user",
       "content": [
