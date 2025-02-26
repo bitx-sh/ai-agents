@@ -97,7 +97,7 @@
       ]
     }
   ],
-  thinking: {
+  "thinking": {
     "type": "enabled",
     "budget_tokens": 61358
   }
