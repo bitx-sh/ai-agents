@@ -3,7 +3,7 @@
  * @module @github-stars-ai/config
  */
 
-import { createConfigurator } from 'c12';
+import { createDefineConfig } from 'c12';
 import { destr } from 'destr';
 import { createContext } from 'unctx';
 import { z } from 'zod';

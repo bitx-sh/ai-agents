@@ -3,7 +3,7 @@
  * @module @github-stars-ai/config
  */
 
-import { createConfigurator } from "c12";
+import { createDefineConfig } from "c12";
 import { destr } from "destr";
 import { z } from "zod";
 
@@ -81,7 +81,7 @@ export async function loadAgentConfig<T extends BaseConfig = BaseConfig>({
   defaults = {},
   validate = true,
 }: ConfigOptions): Promise<T> {
-  const configurator = createConfigurator({
+  const configurator = createDefineConfig({
     name,
     defaults: {
       ...defaults,
