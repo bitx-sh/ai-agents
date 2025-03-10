@@ -49,7 +49,7 @@ const tools = [weatherTool];
 const toolNode = new ToolNode(tools);
 
 const model = new ChatAnthropic({
-  model: "claude-3-5-sonnet-20240620",
+  model: "claude-3-7-sonnet-latest",
   temperature: 0,
 }).bindTools(tools);
 
@@ -94,7 +94,7 @@ const app = workflow.compile({ checkpointer });
 
 // Use the Runnable
 const finalState = await app.invoke(
-  { messages: [new HumanMessage("what is the weather in sf")] },
+  { messages: [new HumanMessage("what is the weather in Denton, TX")] },
   { configurable: { thread_id: "42" } },
 );
 

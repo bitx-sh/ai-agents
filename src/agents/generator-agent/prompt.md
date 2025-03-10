@@ -312,140 +312,146 @@ A comprehensive collection of AI agent role templates for software development, 
 - 🌐 [Web Analytics](categories/web-analytics.md)
 - 📊 [Real-time Analytics](categories/real-time-analytics.md)
 - 🤖 [Predictive Analytics](categories/predictive-analytics.md)
-
-
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+
-- Bun runtime
-- TypeScript 5+
-- Docker
-- Git
-
-### Installation
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/ai-agent-factory.git
-
-# Navigate to project directory
-cd ai-agent-factory
-
-# Install dependencies
-bun install
-
-# Build the project
-bun run build
-
-# Run tests
-bun test
 ```
 
-### Quick Start
-1. Choose a role template from the categories above
-2. Initialize a new agent:
-```bash
-bun run create-agent --template=cloud-architect
-```
-3. Configure the agent in `agents/config.ts`
-4. Build and run your agent:
-```bash
-bun run agent
-```
-
-## 📖 Documentation
-- [Complete Documentation](docs/README.md)
-- [API Reference](docs/api/README.md)
-- [Architecture Guide](docs/architecture/README.md)
-- [Best Practices](docs/best-practices/README.md)
-- [Contributing Guide](CONTRIBUTING.md)
-- [Security Policy](SECURITY.md)
-
-## 🤝 Contributing
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
-- Code of Conduct
-- Development Process
-- Pull Request Process
-- Coding Standards
-- Testing Requirements
-- Documentation Requirements
-
-## 📋 Project Structure
-```
-ai-agent-factory/
-├── agents/           # Agent templates and configurations
-├── categories/       # Role category definitions
-├── core/            # Core system components
-├── docs/            # Documentation
-├── examples/        # Example implementations
-├── scripts/         # Build and utility scripts
-├── src/             # Source code
-├── templates/       # Template files
-└── tests/           # Test suites
-```
-
-## 🧪 Testing
-```bash
-# Run all tests
-bun test
-
-# Run specific category tests
-bun test:category cloud-architecture
-
-# Run integration tests
-bun test:integration
-
-# Run performance tests
-bun test:performance
-```
-
-## 📊 Performance
-- Startup time: <100ms
-- Memory usage: <50MB base
-- Response time: <10ms p95
-- Throughput: >1000 ops/sec
-
-## 🔒 Security
-- [Security Policy](SECURITY.md)
-- [Security Features](docs/security/README.md)
-- [Vulnerability Reporting](SECURITY.md#reporting)
-- [Security Best Practices](docs/security/best-practices.md)
-
-## 📜 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-- [Unix Philosophy](https://en.wikipedia.org/wiki/Unix_philosophy)
-- [The Art of Unix Programming](http://www.catb.org/~esr/writings/taoup/html/)
-- [Anthropic Claude](https://www.anthropic.com/claude)
-- [OpenAI](https://openai.com)
-- [The Twelve-Factor App](https://12factor.net)
-
-## 📞 Support
-- [Issue Tracker](https://github.com/yourusername/ai-agent-factory/issues)
-- [Discussions](https://github.com/yourusername/ai-agent-factory/discussions)
-- [Discord Community](https://discord.gg/ai-agent-factory)
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/ai-agent-factory)
-
-## 🗺️ Roadmap
-See our [public roadmap](ROADMAP.md) for upcoming features and improvements.
-
-## 📈 Status
-- Build: ![Build Status](https://img.shields.io/github/workflow/status/yourusername/ai-agent-factory/CI)
-- Coverage: ![Coverage](https://img.shields.io/codecov/c/github/yourusername/ai-agent-factory)
-- Version: ![Version](https://img.shields.io/github/v/release/yourusername/ai-agent-factory)
-- License: ![License](https://img.shields.io/github/license/yourusername/ai-agent-factory)
-
-## 🌟 Star History
-[![Star History Chart](https://api.star-history.com/svg?repos=danielbodnar/ai-agent-factory&type=Date)](https://star-history.com/#danielbodnar/ai-agent-factory&Date)
-
-```
 </readme.md>
 
 Now, examine the template you will use to structure your output:
 <template>
-{{TEMPLATE}}
+
+# {{AGENT EMOJI}} {{TITLE}}
+
+## 📋 Metadata
+- Type: {{PROMPT_TYPE}}
+- Agent: {{AGENT_NAME}}
+- Version: {{VERSION}}
+- Category: {{CATEGORY}}
+- Complexity: {{COMPLEXITY_LEVEL}}
+- Last Updated: {{UPDATE_DATE}}
+
+## 🤖 System Prompt
+You are a {{ROLE_TYPE}} specializing in {{DOMAIN_EXPERTISE}}. Your core purpose is to {{PRIMARY_PURPOSE}} while ensuring {{QUALITY_ATTRIBUTES}}.
+
+## 🎯 Role Definition
+### 🌟 Core Purpose
+{{ROLE_DESCRIPTION}}
+
+### 🎨 Specialization Areas
+{{#each SPECIALIZATIONS}}
+- {{this}}
+{{/each}}
+
+## 🧠 Cognitive Architecture
+### 🎨 Analysis Capabilities
+{{#each ANALYSIS_CAPABILITIES}}
+- {{this}}
+{{/each}}
+
+### 🚀 Design Capabilities
+{{#each DESIGN_CAPABILITIES}}
+- {{this}}
+{{/each}}
+
+## 💻 Technical Requirements
+### 🛠️ Core Technologies
+{{#each CORE_TECHNOLOGIES}}
+- {{this}}
+{{/each}}
+
+### ⚙️ Development Stack
+{{#each DEV_STACK}}
+- {{this}}
+{{/each}}
+
+## 📋 Interface Definitions
+### 📥 Input Schema
+```typescript
+interface {{INPUT_INTERFACE_NAME}} {
+  {{INPUT_SCHEMA}}
+}
+```
+
+### 📤 Output Schema
+```typescript
+interface {{OUTPUT_INTERFACE_NAME}} {
+  {{OUTPUT_SCHEMA}}
+}
+```
+
+## 🔄 Working Process
+{{#each WORKFLOW_STEPS}}
+### {{@index}}. {{this.title}}
+{{this.description}}
+{{#each this.subtasks}}
+- {{this}}
+{{/each}}
+{{/each}}
+
+## 🎯 Quality Assurance
+### 🔍 Validation Checks
+{{#each VALIDATION_CHECKS}}
+- ✅ {{this}}
+{{/each}}
+
+### 🧪 Testing Requirements
+{{#each TESTING_REQUIREMENTS}}
+- {{this}}
+{{/each}}
+
+## 📚 Knowledge Requirements
+{{#each KNOWLEDGE_AREAS}}
+### {{this.category}}
+{{#each this.items}}
+- {{this}}
+{{/each}}
+{{/each}}
+
+## 🔄 Self-Improvement
+### 📈 Learning Mechanisms
+{{#each LEARNING_MECHANISMS}}
+- {{this}}
+{{/each}}
+
+### 🎯 Optimization Targets
+{{#each OPTIMIZATION_TARGETS}}
+- {{this}}
+{{/each}}
+
+## 📋 Variables
+```typescript
+interface {{CONFIG_INTERFACE_NAME}} {
+  {{CONFIG_SCHEMA}}
+}
+```
+
+## 🎯 Example Usage
+```typescript
+const {{EXAMPLE_NAME}} = {
+  {{EXAMPLE_CONFIG}}
+};
+```
+
+## 🔄 Improvement Prompts
+### 📊 Variable Generator
+```handlebars
+{{VARIABLE_GENERATOR_TEMPLATE}}
+```
+
+### 🧪 Test Case Generator
+```handlebars
+{{TEST_GENERATOR_TEMPLATE}}
+```
+
+### 📚 Examples Generator
+```handlebars
+{{EXAMPLES_GENERATOR_TEMPLATE}}
+```
+
+### 🔄 Self-Improvement
+```handlebars
+{{SELF_IMPROVEMENT_TEMPLATE}}
+```
+
 </template>
 
 
@@ -469,16 +475,7 @@ When generating content:
 - Create meaningful and category-specific templates for the generator sections (VARIABLE_GENERATOR_TEMPLATE, TEST_GENERATOR_TEMPLATE, etc.).
 
 Your output should be a fully populated version of the provided template, with all placeholders replaced by relevant, detailed, and technically accurate content specific to the given category.
-
-Finally, here is the agent name you've been asked to generate:
-
-<agent_name>
-{{AGENT_NAME}}
-</agent_name>
-
-And some additional details:
-<instructions>
-{{INSTRUCTIONS}}
-</instructions>
+You should ensure that the output adheres to any defined coding standards and conventions relevant to the project, maintaining clarity and quality throughout.
+Additionally, make sure to validate the generated content against any existing requirements or standards related to the specific category, ensuring completeness and correctness.
 
 Begin your response with <agentfile> and end it with </agentfile>. Do not include any explanation or commentary outside of these tags, either before or after.
